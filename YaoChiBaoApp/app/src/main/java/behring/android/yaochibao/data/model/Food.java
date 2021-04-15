@@ -1,4 +1,4 @@
-package behring.android.yaochibao.data.source.model;
+package behring.android.yaochibao.data.model;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 public class Food {
     private final String id;
     private final String name;
-    private final String releaseDate;
+    private final String imageUrl;
+    private final long priceCent;
     private final Restaurant restaurant;
 }

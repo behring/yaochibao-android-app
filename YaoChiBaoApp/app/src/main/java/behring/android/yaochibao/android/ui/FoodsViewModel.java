@@ -8,7 +8,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import behring.android.yaochibao.android.ui.base.BaseViewModel;
-import behring.android.yaochibao.data.source.model.Food;
+import behring.android.yaochibao.data.model.Food;
 import behring.android.yaochibao.domain.FoodsPresenter;
 import dagger.hilt.android.lifecycle.HiltViewModel;
 
@@ -27,16 +27,20 @@ public class FoodsViewModel extends BaseViewModel {
         this.foodsPresenter = foodsPresenter;
     }
 
-    public LiveData<List<Food>> getFoods(String searchString) {
+    public LiveData<List<Food>> getFoods() {
         if (foods == null) {
             foods = new MutableLiveData<>();
-            loadFoods(searchString);
+            loadFoods();
         }
         return foods;
     }
 
-    private void loadFoods(String searchString) {
-        addDisposable(foodsPresenter.getFoods(searchString, foods.getValue().size(), 10)
+    private void loadFoods() {
+        int skipCount = 0;
+        if (foods.getValue() != null) {
+            skipCount = foods.getValue().size();
+        }
+        addDisposable(foodsPresenter.getFoods(null, skipCount, 10)
                 .subscribe((foods, throwable) -> {
                     if (throwable == null) {
                         this.foods.postValue(foods);

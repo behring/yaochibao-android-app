@@ -1,4 +1,4 @@
-package behring.android.yaochibao.data.source.model;
+package behring.android.yaochibao.data.model;
 
 import androidx.annotation.Nullable;
 

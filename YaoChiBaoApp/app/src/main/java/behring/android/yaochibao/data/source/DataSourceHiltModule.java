@@ -23,7 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * @since 2021-04-15
  */
 @Module
-@InstallIn(SingletonComponent.class) // Installs FooModule in the generate SingletonComponent.
+@InstallIn(SingletonComponent.class)
 final class DataSourceHiltModule {
     @Provides
     static RemoteDataSource provideRemoteDataSource(Retrofit retrofit) {

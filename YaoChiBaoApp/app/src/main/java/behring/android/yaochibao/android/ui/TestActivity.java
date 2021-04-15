@@ -1,8 +1,11 @@
 package behring.android.yaochibao.android.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import behring.android.yaochibao.R;
 
@@ -17,5 +20,9 @@ public class TestActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
+    }
+
+    public void startFoodsActivity(View view) {
+        ActivityCompat.startActivity(this, new Intent(this, FoodsActivity.class), null);
     }
 }

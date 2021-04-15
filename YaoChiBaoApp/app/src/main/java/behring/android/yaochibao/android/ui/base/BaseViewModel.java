@@ -11,7 +11,6 @@ import io.reactivex.rxjava3.disposables.Disposable;
  *
  * @since 2021-04-15
  */
-@HiltViewModel
 public class BaseViewModel extends ViewModel {
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
