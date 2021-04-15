@@ -1,13 +1,17 @@
 package behring.android.yaochibao.android.ui;
 
 import android.os.Bundle;
+import android.widget.ImageView;
 
+import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.GlideBuilder;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
 import org.jetbrains.annotations.NotNull;
@@ -43,27 +47,24 @@ public class FoodsActivity extends BaseActivity {
         });
     }
 
-    public static class FoodsAdapter extends BaseQuickAdapter<Food, BaseViewHolder> {
-        private ItemFoodBinding binding;
-
+    public static class FoodsAdapter extends BaseQuickAdapter<Food, BaseDataBindingHolder<ItemFoodBinding>> {
         @Inject
         public FoodsAdapter() {
             super(R.layout.item_food);
         }
 
-        @Override
-        protected void onItemViewHolderCreated(@NotNull BaseViewHolder viewHolder, int viewType) {
-            binding = ItemFoodBinding.bind(viewHolder.itemView);
+        @BindingAdapter("imageUrl")
+        public static void loadImage(ImageView imageView, String imageUrl) {
+            Glide.with(imageView).load(imageUrl).into(imageView);
         }
 
         @Override
-        protected void convert(@NotNull BaseViewHolder viewHolder, Food item) {
-            if (item == null || binding == null) {
+        protected void convert(@NotNull BaseDataBindingHolder<ItemFoodBinding> bindingHolder, Food food) {
+            ItemFoodBinding binding = bindingHolder.getDataBinding();
+            if (food == null || binding == null) {
                 return;
             }
-            binding.name.setText(item.getName());
-            binding.priceCent.setText(String.format("%s%s", item.getPriceCent() / 100.0, getContext().getString(R.string.yuan)));
-            Glide.with(getContext()).load(item.getImageUrl()).into(binding.image);
+            binding.setFood(food);
             binding.executePendingBindings();
         }
     }
