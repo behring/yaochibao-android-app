@@ -31,3 +31,14 @@ foo@bar:~$ ./grdlew :app:installRelease
    foo@bar:~$ adb install YaoChiBaoApp/apk/app-release.apk
    ```
 > 注意：通过模拟器安装APK后，可以访问到本地部署的BFF服务，如果想要在真机上测试APK，需要将BFF部署到真机可以访问的网络环境。为了您方便的测试，可以安装`YaoChiBaoApp/apk/app-debug.apk`在真机上测试。`app-debug.apk`并没有真正访问BFF服务，而是Stub了网络层直接返回Happy Path数据，因此测试不能保证最终产品环境的功能有效性。建议使用`app-release.apk`进行测试。
+
+## 模拟push消息服务
+Push服务往往为第三方付费服务，它们会提供相应的Android版本SDK给开发者使用。一般情况，这些SDK内会提供一个Service组件(android组件)。当后台服务发送push消息时，该Service组件的某个方法会触发并接受消息。
+
+为了模拟此场景，`YaoChiBaoApp/scripts`目录提供了一个模拟Push服务发送消息的脚本`push-message.sh`。当执行此shell命令，Android客户端的`behring.android.yaochibao.android.service.PushReceivingService`的`onStartCommand`方法将受到push消息。
+
+默认情况下，执行`push-message.sh`脚本时，会发送一个`CommendFood`对象的json字符串。如果需要自定义发送的消息体来测试其他场景（例如异常情况），请使用如下命令：
+```
+foo@bar:~$ cd YaoChiBaoApp
+foo@bar:~$ ./scripts/push-message.sh test-message-content
+```
