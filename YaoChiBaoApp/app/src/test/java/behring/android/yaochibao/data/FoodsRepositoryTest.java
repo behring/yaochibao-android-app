@@ -18,15 +18,12 @@ import behring.android.yaochibao.data.model.Food;
 import behring.android.yaochibao.data.source.db.DBDataSource;
 import behring.android.yaochibao.data.source.remote.RemoteDataSource;
 import io.reactivex.rxjava3.core.Single;
-import io.reactivex.rxjava3.observers.TestObserver;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -34,7 +31,9 @@ import static org.mockito.Mockito.when;
 @RunWith(AndroidJUnit4.class)
 @Config(sdk = Build.VERSION_CODES.P)
 public class FoodsRepositoryTest {
-
+    /**
+     * 此测试依赖于Fake的BFF，在运行测试前确保启动BFF服务器。
+     * */
     @Test
     public void should_return_foods_when_call_remote_data_source_get_foods() {
         Context stubContext = mock(Context.class);
