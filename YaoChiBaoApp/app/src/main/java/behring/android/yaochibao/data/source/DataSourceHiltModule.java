@@ -2,6 +2,8 @@ package behring.android.yaochibao.data.source;
 
 import android.content.Context;
 
+import java.util.concurrent.TimeUnit;
+
 import javax.inject.Singleton;
 
 import behring.android.yaochibao.R;
@@ -24,15 +26,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 @Module
 @InstallIn(SingletonComponent.class)
-final class DataSourceHiltModule {
+public final class DataSourceHiltModule {
     @Provides
-    static RemoteDataSource provideRemoteDataSource(Retrofit retrofit) {
+    public static RemoteDataSource provideRemoteDataSource(Retrofit retrofit) {
         return retrofit.create(RemoteDataSource.class);
     }
 
     @Singleton
     @Provides
-    static Retrofit provideRRetrofit(
+    public static Retrofit provideRRetrofit(
             @ApplicationContext Context appContext,
             OkHttpClient httpClient) {
         return new Retrofit.Builder()
@@ -45,13 +47,18 @@ final class DataSourceHiltModule {
 
     @Singleton
     @Provides
-    static OkHttpClient provideOkHttpClient(HttpLoggingInterceptor httpLoggingInterceptor) {
-        return new OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor).build();
+    public static OkHttpClient provideOkHttpClient(HttpLoggingInterceptor httpLoggingInterceptor) {
+        return new OkHttpClient.Builder()
+                .addInterceptor(httpLoggingInterceptor)
+                .readTimeout(15, TimeUnit.SECONDS)
+                .writeTimeout(15, TimeUnit.SECONDS)
+                .connectTimeout(15, TimeUnit.SECONDS)
+                .build();
     }
 
     @Singleton
     @Provides
-    static HttpLoggingInterceptor provideHttpLoggingInterceptor() {
+    public static HttpLoggingInterceptor provideHttpLoggingInterceptor() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         return interceptor;
