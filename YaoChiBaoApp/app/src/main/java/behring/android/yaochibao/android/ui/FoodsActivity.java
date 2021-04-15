@@ -10,6 +10,11 @@ import behring.android.yaochibao.android.ui.base.BaseActivity;
 import behring.android.yaochibao.databinding.ActivityFoodsBinding;
 import dagger.hilt.android.AndroidEntryPoint;
 
+/**
+ * 餐品列表页
+ *
+ * @since 2021-04-15
+ */
 @AndroidEntryPoint
 public class FoodsActivity extends BaseActivity {
     @Override
