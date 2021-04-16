@@ -1,19 +1,27 @@
 package behring.android.yaochibao.data.model;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
+import lombok.Data;
 
 /**
  * 餐品信息
  *
  * @since 2021-04-15
  */
-@RequiredArgsConstructor
-@Getter
+
+@Data
+@Entity
 public class Food {
-    private final String id;
-    private final String name;
-    private final String imageUrl;
-    private final long priceCent;
-    private final Restaurant restaurant;
+    @PrimaryKey
+    @NonNull
+    private String id;
+    private String name;
+    private String imageUrl;
+    private long priceCent;
+    @Ignore
+    private Restaurant restaurant;
 }

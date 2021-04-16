@@ -1,9 +1,11 @@
 package behring.android.yaochibao.data.source.db;
 
-import javax.inject.Inject;
+import androidx.room.Database;
+import androidx.room.RoomDatabase;
 
-public class DBDataSource {
-    @Inject
-    public DBDataSource() {
-    }
+import behring.android.yaochibao.data.model.Food;
+
+@Database(entities = {Food.class}, version = 1, exportSchema = false)
+public abstract class DBDataSource extends RoomDatabase {
+    public abstract FoodDao foodDao();
 }

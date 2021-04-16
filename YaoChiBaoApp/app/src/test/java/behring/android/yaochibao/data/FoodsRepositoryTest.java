@@ -15,7 +15,7 @@ import java.util.List;
 
 import behring.android.yaochibao.TestHelper;
 import behring.android.yaochibao.data.model.Food;
-import behring.android.yaochibao.data.source.db.DBDataSource;
+import behring.android.yaochibao.data.source.db.FoodDao;
 import behring.android.yaochibao.data.source.remote.RemoteDataSource;
 import io.reactivex.rxjava3.core.Single;
 
@@ -24,7 +24,6 @@ import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -41,7 +40,7 @@ public class FoodsRepositoryTest {
         doReturn("http://localhost:3000").when(stubContext).getString(anyInt());
         RemoteDataSource remoteDataSource = TestHelper.getRemoteDataSource(stubContext);
         //when
-        List<Food> foods = remoteDataSource.getFoods(anyString(), anyInt(), anyInt()).blockingGet();
+        List<Food> foods = remoteDataSource.getFoods(null, 0, 0).blockingGet();
         //then
         assertEquals(20, foods.size());
     }
@@ -50,8 +49,8 @@ public class FoodsRepositoryTest {
     public void should_call_remote_data_source_when_call_foods_repository_get_foods() {
         //given
         RemoteDataSource remoteDataSource = mock(RemoteDataSource.class);
-        when(remoteDataSource.getFoods(anyString(), anyInt(), anyInt())).thenReturn(Single.just(new ArrayList<>()));
-        FoodsRepository foodsRepository = new FoodsRepository(remoteDataSource, mock(DBDataSource.class));
+        doReturn(Single.just(new ArrayList<>())).when(remoteDataSource).getFoods(anyString(), anyInt(), anyInt());
+        FoodsRepository foodsRepository = new FoodsRepository(remoteDataSource, mock(FoodDao.class));
         //when
         foodsRepository.getFoods(anyString(), anyInt(), anyInt()).blockingSubscribe();
         //then
