@@ -1,6 +1,7 @@
 package behring.android.yaochibao.android.ui;
 
 import androidx.annotation.Nullable;
+import androidx.databinding.Bindable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +9,8 @@ import java.util.function.BiConsumer;
 
 import javax.inject.Inject;
 
-import behring.android.yaochibao.android.ui.base.BaseViewModel;
+import behring.android.yaochibao.BR;
+import behring.android.yaochibao.android.ui.base.ObservableViewModel;
 import behring.android.yaochibao.data.model.Food;
 import behring.android.yaochibao.domain.FoodsPresenter;
 import dagger.hilt.android.lifecycle.HiltViewModel;
@@ -20,9 +22,10 @@ import lombok.Getter;
  * @since 2021-04-15
  */
 @HiltViewModel
-public class FoodsViewModel extends BaseViewModel {
+public class FoodsViewModel extends ObservableViewModel {
     private final FoodsPresenter foodsPresenter;
     @Getter
+    @Bindable
     private List<Food> foods = new ArrayList<>();
 
     @Inject
@@ -36,8 +39,11 @@ public class FoodsViewModel extends BaseViewModel {
                 .subscribe((foods, throwable) -> {
                     if (throwable == null) {
                         this.foods = foods;
+                        notifyPropertyChanged(BR.foods);
                     }
-                    consumer.accept(foods, throwable);
+                    if (consumer != null) {
+                        consumer.accept(foods, throwable);
+                    }
                 }));
     }
 }

@@ -18,6 +18,7 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.function.BiConsumer;
 
 import javax.inject.Inject;
 
@@ -35,15 +36,12 @@ import dagger.hilt.android.AndroidEntryPoint;
  */
 @AndroidEntryPoint
 public class FoodsActivity extends BaseActivity {
-    @Inject
-    FoodsAdapter foodsAdapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActivityFoodsBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_foods);
         binding.foodsView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        binding.foodsView.setAdapter(foodsAdapter);
+        binding.foodsView.setAdapter(new FoodsAdapter());
         binding.setFoodsViewModel(new ViewModelProvider(this).get(FoodsViewModel.class));
         binding.getFoodsViewModel().loadFoods(null);
     }
