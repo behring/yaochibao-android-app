@@ -7,6 +7,7 @@ import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.GlideBuilder;
@@ -15,6 +16,8 @@ import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -41,10 +44,15 @@ public class FoodsActivity extends BaseActivity {
         ActivityFoodsBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_foods);
         binding.foodsView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         binding.foodsView.setAdapter(foodsAdapter);
-        FoodsViewModel foodsViewModel = new ViewModelProvider(this).get(FoodsViewModel.class);
-        foodsViewModel.getFoods().observe(this, foods -> {
-            foodsAdapter.setList(foods);
-        });
+        binding.setFoodsViewModel(new ViewModelProvider(this).get(FoodsViewModel.class));
+        binding.getFoodsViewModel().loadFoods();
+    }
+
+    @BindingAdapter("data")
+    public static void loadRecyclerViewData(RecyclerView recyclerView, List<Food> foods) {
+        if (recyclerView.getAdapter() instanceof FoodsAdapter) {
+            ((FoodsAdapter)recyclerView.getAdapter()).setList(foods);
+        }
     }
 
     public static class FoodsAdapter extends BaseQuickAdapter<Food, BaseDataBindingHolder<ItemFoodBinding>> {
