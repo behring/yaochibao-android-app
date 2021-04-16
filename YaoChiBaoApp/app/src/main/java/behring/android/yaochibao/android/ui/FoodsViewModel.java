@@ -1,10 +1,10 @@
 package behring.android.yaochibao.android.ui;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
+import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiConsumer;
 
 import javax.inject.Inject;
 
@@ -30,13 +30,14 @@ public class FoodsViewModel extends BaseViewModel {
         this.foodsPresenter = foodsPresenter;
     }
 
-    public void loadFoods() {
+    public void loadFoods(@Nullable BiConsumer<List<Food>, Throwable> consumer) {
         int skipCount = foods.size();
         addDisposable(foodsPresenter.getFoods(null, skipCount, 10)
                 .subscribe((foods, throwable) -> {
                     if (throwable == null) {
                         this.foods = foods;
                     }
+                    consumer.accept(foods, throwable);
                 }));
     }
 }

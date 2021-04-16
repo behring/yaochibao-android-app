@@ -45,7 +45,7 @@ public class FoodsActivity extends BaseActivity {
         binding.foodsView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         binding.foodsView.setAdapter(foodsAdapter);
         binding.setFoodsViewModel(new ViewModelProvider(this).get(FoodsViewModel.class));
-        binding.getFoodsViewModel().loadFoods();
+        binding.getFoodsViewModel().loadFoods(null);
     }
 
     @BindingAdapter("data")

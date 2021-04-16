@@ -36,19 +36,25 @@ public class FoodsRepositoryTest {
      * */
     @Test
     public void should_return_foods_when_call_remote_data_source_get_foods() {
+        //given
         Context stubContext = mock(Context.class);
         doReturn("http://localhost:3000").when(stubContext).getString(anyInt());
         RemoteDataSource remoteDataSource = TestHelper.getRemoteDataSource(stubContext);
+        //when
         List<Food> foods = remoteDataSource.getFoods(anyString(), anyInt(), anyInt()).blockingGet();
+        //then
         assertEquals(20, foods.size());
     }
 
     @Test
     public void should_call_remote_data_source_when_call_foods_repository_get_foods() {
+        //given
         RemoteDataSource remoteDataSource = mock(RemoteDataSource.class);
         when(remoteDataSource.getFoods(anyString(), anyInt(), anyInt())).thenReturn(Single.just(new ArrayList<>()));
         FoodsRepository foodsRepository = new FoodsRepository(remoteDataSource, mock(DBDataSource.class));
+        //when
         foodsRepository.getFoods(anyString(), anyInt(), anyInt()).blockingSubscribe();
-        verify(remoteDataSource, times(1)).getFoods(anyString(), anyInt(), anyInt());
+        //then
+        verify(remoteDataSource).getFoods(anyString(), anyInt(), anyInt());
     }
 }
