@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import behring.android.yaochibao.data.model.Food;
 import behring.android.yaochibao.data.source.db.FoodDao;
 import behring.android.yaochibao.data.source.remote.RemoteDataSource;
+import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.schedulers.Schedulers;
@@ -22,12 +23,15 @@ public class FoodsRepository {
     }
 
     public Single<List<Food>> getFoods(String searchString, int skip, int limit) {
-        return remoteDataSource.getFoods(searchString, skip, limit)
-                .subscribeOn(Schedulers.io())
-                .doAfterSuccess(foods -> foodDao.insertFoods(foods.toArray(new Food[0])).subscribe());
+        return remoteDataSource.getFoods(searchString, skip, limit).subscribeOn(Schedulers.io())
+                .doAfterSuccess(this::saveFoodsToDB);
     }
 
-    public Observable<List<Food>> getFoodsFromDB() {
+    public void saveFoodsToDB(List<Food> foods) {
+        foodDao.insertFoods(foods.toArray(new Food[0])).subscribe();
+    }
+
+    public Flowable<List<Food>> getFoodsFromDB() {
         return foodDao.loadAllFoods().subscribeOn(Schedulers.io());
     }
 }
