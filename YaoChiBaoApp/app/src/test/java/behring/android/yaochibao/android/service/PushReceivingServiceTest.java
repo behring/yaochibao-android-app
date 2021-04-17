@@ -24,7 +24,7 @@ public class PushReceivingServiceTest {
     public void should_call_FoodsPresenter_handleFoodCommendPushMessage_when_receive_push_FOOD_COMMEND() {
         //given
         Intent serviceIntent = new Intent(ApplicationProvider.getApplicationContext(), PushReceivingService.class);
-        String pushMessageStr = "{type:FOOD_COMMEND,data:\"{restaurantId:12313,foodId:10003,description:特价鸡排饭}\"}";
+        String pushMessageStr = "{type:FOOD_COMMEND,data:\"{id:10003,name:特价鸡排饭,priceCent:3200}\"}";
         serviceIntent.putExtra(PushReceivingService.PUSH_MESSAGE_KEY, pushMessageStr);
         PushReceivingService service = new PushReceivingService();
         FoodsPresenter foodsPresenter = mock(FoodsPresenter.class);
