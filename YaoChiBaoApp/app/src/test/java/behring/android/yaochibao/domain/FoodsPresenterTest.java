@@ -59,4 +59,27 @@ public class FoodsPresenterTest {
         //then
         verify(mockFoodsRepository).getFoods(anyString(), anyInt(), anyInt());
     }
+
+    @Test
+    public void should_return_foods_to_view_model_when_call_presenter_get_foods_from_db_and_network_not_available() {
+        //given
+        when(mockFoodsRepository.getFoodsFromDB()).thenReturn(Single.just(new ArrayList<>()));;
+        doReturn(false).when(foodsPresenter).isNetworkAvailable();
+        FoodsViewModel viewModel = new FoodsViewModel(foodsPresenter);
+        //when
+        List<Food> presentFoods = foodsPresenter.getFoods(anyString(), anyInt(), anyInt()).blockingGet();
+        //then
+        viewModel.loadFoods((foods, throwable) -> assertEquals(foods, presentFoods));
+    }
+
+    @Test
+    public void should_call_repository_get_foods_from_db_when_call_presenter_get_foods_and_network_not_available() {
+        //given
+        when(mockFoodsRepository.getFoodsFromDB()).thenReturn(Single.just(new ArrayList<>()));
+        doReturn(false).when(foodsPresenter).isNetworkAvailable();
+        //when
+        foodsPresenter.getFoods(anyString(), anyInt(), anyInt()).blockingSubscribe();
+        //then
+        verify(mockFoodsRepository).getFoodsFromDB();
+    }
 }
