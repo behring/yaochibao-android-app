@@ -24,12 +24,11 @@ public class FoodsPresenter {
     }
 
     public Single<List<Food>> getFoods(String searchString, int skipCount, int count) {
-
-        return foodsRepository.getFoods(searchString, skipCount, count);
-    }
-
-    public Single<List<Food>> getFoodsFromCache() {
-        return foodsRepository.getFoodsFromDB();
+        if (isNetworkAvailable()) {
+            return foodsRepository.getFoods(searchString, skipCount, count);
+        } else {
+            return foodsRepository.getFoodsFromDB();
+        }
     }
 
     public boolean isNetworkAvailable() {
