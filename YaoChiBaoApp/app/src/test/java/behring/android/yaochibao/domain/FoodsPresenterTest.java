@@ -7,11 +7,15 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import behring.android.yaochibao.TestHelper;
 import behring.android.yaochibao.android.ui.FoodsViewModel;
+import behring.android.yaochibao.common.Network;
 import behring.android.yaochibao.data.FoodsRepository;
 import behring.android.yaochibao.data.model.Food;
 import io.reactivex.rxjava3.core.Single;
@@ -28,32 +32,37 @@ import static org.mockito.Mockito.when;
 public class FoodsPresenterTest {
     @Mock
     FoodsRepository mockFoodsRepository;
+    @Mock
+    Network network;
+    @Mock
+    Context context;
     FoodsPresenter foodsPresenter;
 
     @Before
-    public void setup() {
-        MockitoAnnotations.initMocks(this);
-        foodsPresenter = spy(new FoodsPresenter(mock(Context.class), mockFoodsRepository));
+    public void setup() throws NoSuchFieldException, IllegalAccessException {
+        MockitoAnnotations.openMocks(this);
+        foodsPresenter = spy(new FoodsPresenter(context, mockFoodsRepository));
+        TestHelper.modifySingleton(Network.class, network);
     }
 
     @Test
     public void should_return_foods_to_view_model_when_call_presenter_get_foods_and_network_available() {
         //given
-        when(mockFoodsRepository.getFoods(anyString(), anyInt(), anyInt()))
-                .thenReturn(Single.just(Arrays.asList(mock(Food.class), mock(Food.class))));
-        doReturn(true).when(foodsPresenter).isNetworkAvailable();
-        FoodsViewModel viewModel = new FoodsViewModel(foodsPresenter);
+        doReturn(Single.just(Arrays.asList(mock(Food.class), mock(Food.class))))
+                .when(mockFoodsRepository).getFoods(anyString(), anyInt(), anyInt());
+        doReturn(true).when(network).isNetworkAvailable(context);
         //when
         List<Food> presentFoods = foodsPresenter.getFoods(anyString(), anyInt(), anyInt()).blockingGet();
+        FoodsViewModel viewModel = new FoodsViewModel(foodsPresenter);
         //then
-        viewModel.loadFoods((foods, throwable) -> assertEquals(foods, presentFoods));
+        viewModel.loadFoods(anyString(), anyInt(), anyInt(), (foods, throwable) -> assertEquals(foods, presentFoods));
     }
 
     @Test
     public void should_call_repository_get_foods_when_call_presenter_get_foods_and_network_available() {
         //given
         when(mockFoodsRepository.getFoods(anyString(), anyInt(), anyInt())).thenReturn(Single.just(new ArrayList<>()));
-        doReturn(true).when(foodsPresenter).isNetworkAvailable();
+        doReturn(true).when(network).isNetworkAvailable(context);
         //when
         foodsPresenter.getFoods(anyString(), anyInt(), anyInt()).blockingSubscribe();
         //then
@@ -63,20 +72,21 @@ public class FoodsPresenterTest {
     @Test
     public void should_return_foods_to_view_model_when_call_presenter_get_foods_from_db_and_network_not_available() {
         //given
-        when(mockFoodsRepository.getFoodsFromDB()).thenReturn(Single.just(new ArrayList<>()));;
-        doReturn(false).when(foodsPresenter).isNetworkAvailable();
+        when(mockFoodsRepository.getFoodsFromDB()).thenReturn(Single.just(new ArrayList<>()));
+        ;
+        doReturn(false).when(network).isNetworkAvailable(context);
         FoodsViewModel viewModel = new FoodsViewModel(foodsPresenter);
         //when
         List<Food> presentFoods = foodsPresenter.getFoods(anyString(), anyInt(), anyInt()).blockingGet();
         //then
-        viewModel.loadFoods((foods, throwable) -> assertEquals(foods, presentFoods));
+        viewModel.loadFoods(anyString(), anyInt(), anyInt(), (foods, throwable) -> assertEquals(foods, presentFoods));
     }
 
     @Test
     public void should_call_repository_get_foods_from_db_when_call_presenter_get_foods_and_network_not_available() {
         //given
         when(mockFoodsRepository.getFoodsFromDB()).thenReturn(Single.just(new ArrayList<>()));
-        doReturn(false).when(foodsPresenter).isNetworkAvailable();
+        doReturn(false).when(network).isNetworkAvailable(context);
         //when
         foodsPresenter.getFoods(anyString(), anyInt(), anyInt()).blockingSubscribe();
         //then

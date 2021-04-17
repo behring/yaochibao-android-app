@@ -33,17 +33,18 @@ public class FoodsViewModel extends ObservableViewModel {
         this.foodsPresenter = foodsPresenter;
     }
 
-    public void loadFoods(@Nullable BiConsumer<List<Food>, Throwable> consumer) {
+    public void loadFoods(String searchStr, int page, int pageCount, @Nullable BiConsumer<List<Food>, Throwable> consumer) {
         int skipCount = foods.size();
-        addDisposable(foodsPresenter.getFoods(null, skipCount, 10)
-                .subscribe((foods, throwable) -> {
-                    if (throwable == null) {
-                        this.foods = foods;
-                        notifyPropertyChanged(BR.foods);
-                    }
-                    if (consumer != null) {
-                        consumer.accept(foods, throwable);
-                    }
-                }));
+        addDisposable(
+                foodsPresenter.getFoods(searchStr, page, pageCount)
+                        .subscribe((foods, throwable) -> {
+                            if (throwable == null) {
+                                this.foods = foods;
+                                notifyPropertyChanged(BR.foods);
+                            }
+                            if (consumer != null) {
+                                consumer.accept(foods, throwable);
+                            }
+                        }));
     }
 }

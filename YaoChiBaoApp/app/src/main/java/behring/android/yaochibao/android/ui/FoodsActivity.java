@@ -43,7 +43,7 @@ public class FoodsActivity extends BaseActivity {
         ActivityFoodsBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_foods);
         initRecyclerView(binding.foodsView);
         binding.setFoodsViewModel(new ViewModelProvider(this).get(FoodsViewModel.class));
-        binding.getFoodsViewModel().loadFoods(null);
+        binding.getFoodsViewModel().loadFoods(null, 0, 10, null);
     }
 
     private void initRecyclerView(RecyclerView recyclerView) {
