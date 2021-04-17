@@ -15,10 +15,6 @@ import org.robolectric.annotation.Config;
 
 import behring.android.yaochibao.TestHelper;
 import behring.android.yaochibao.data.model.Food;
-import io.reactivex.rxjava3.annotations.NonNull;
-import io.reactivex.rxjava3.core.CompletableObserver;
-import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.functions.BiConsumer;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 import static org.junit.Assert.assertEquals;
@@ -51,6 +47,6 @@ public class DBDataSourceTest {
         //when
         foodDao.insertFoods(foods).subscribeOn(Schedulers.io()).blockingSubscribe();
         //then
-        assertEquals(foods.length, foodDao.loadAllFoods().blockingFirst().size());
+        assertEquals(foods.length, foodDao.loadAllFoods().subscribeOn(Schedulers.io()).blockingGet().size());
     }
 }

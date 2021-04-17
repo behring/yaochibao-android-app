@@ -51,7 +51,7 @@ public class FoodsRepositoryTest {
     public void should_call_food_dao_when_call_foods_repository_get_foods_from_db() {
         //given
         FoodDao foodDao = mock(FoodDao.class);
-        doReturn(Flowable.just(new ArrayList<>())).when(foodDao).loadAllFoods();
+        doReturn(Single.just(new ArrayList<>())).when(foodDao).loadAllFoods();
         FoodsRepository foodsRepository = new FoodsRepository(mock(RemoteDataSource.class), foodDao);
         //when
         foodsRepository.getFoodsFromDB().blockingSubscribe();

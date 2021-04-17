@@ -31,7 +31,7 @@ public class FoodsRepository {
         foodDao.insertFoods(foods.toArray(new Food[0])).subscribe();
     }
 
-    public Flowable<List<Food>> getFoodsFromDB() {
+    public Single<List<Food>> getFoodsFromDB() {
         return foodDao.loadAllFoods().subscribeOn(Schedulers.io());
     }
 }

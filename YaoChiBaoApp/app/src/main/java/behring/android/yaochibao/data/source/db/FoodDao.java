@@ -8,14 +8,13 @@ import androidx.room.Query;
 import java.util.List;
 
 import behring.android.yaochibao.data.model.Food;
-import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.core.Single;
 
 
 @Dao
 public interface FoodDao {
     @Query("SELECT * FROM food")
-    Flowable<List<Food>> loadAllFoods();
+    Single<List<Food>> loadAllFoods();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     Single<List<Long>> insertFoods(Food... foods);
