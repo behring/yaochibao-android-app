@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -40,10 +41,15 @@ public class FoodsActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActivityFoodsBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_foods);
-        binding.foodsView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        binding.foodsView.setAdapter(new FoodsAdapter());
+        initRecyclerView(binding.foodsView);
         binding.setFoodsViewModel(new ViewModelProvider(this).get(FoodsViewModel.class));
         binding.getFoodsViewModel().loadFoods(null);
+    }
+
+    private void initRecyclerView(RecyclerView recyclerView) {
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        recyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
+        recyclerView.setAdapter(new FoodsAdapter());
     }
 
     @BindingAdapter("data")
