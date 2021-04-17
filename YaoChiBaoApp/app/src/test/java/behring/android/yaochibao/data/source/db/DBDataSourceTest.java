@@ -38,6 +38,8 @@ public class DBDataSourceTest {
     }
 
     /**
+     * 工序2 通过fake Sqlite DB，实现DBDataSource调用Sqlite DB并返回结果到Repository
+     *
      * 此测试依赖于Fake的内存DB
      * */
     @Test

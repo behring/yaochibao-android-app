@@ -20,6 +20,12 @@ import static org.mockito.Mockito.verify;
 @RunWith(AndroidJUnit4.class)
 @Config(sdk = Build.VERSION_CODES.P)
 public class PushReceivingServiceTest {
+
+    /**
+     * 工序6 通过fake push server(或直接触发Service中push消息回调方法), 实现Service调用Presenter
+     *
+     * 此测试依赖于Fake的内存DB
+     * */
     @Test
     public void should_call_FoodsPresenter_handleFoodCommendPushMessage_when_receive_push_FOOD_COMMEND() {
         //given

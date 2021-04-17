@@ -34,6 +34,11 @@ import static org.mockito.Mockito.verify;
 @Config(sdk = Build.VERSION_CODES.P)
 public class FoodsRepositoryTest {
 
+    /**
+     * 工序1 通过fake Mobile BFF，实现RemoteDataSource调用BFF并返回结果到Repository
+     *
+     * 当调用Repository方法时，能调用响应的RemoteDataSource方法
+     * */
     @Test
     public void should_call_remote_data_source_when_call_foods_repository_get_foods() {
         //given
@@ -47,6 +52,11 @@ public class FoodsRepositoryTest {
         verify(remoteDataSource).getFoods(anyString(), anyInt(), anyInt());
     }
 
+    /**
+     * 工序2 通过fake Sqlite DB，实现DBDataSource调用Sqlite DB并返回结果到Repository
+     *
+     * 当调用Repository方法时，能调用响应的DBDataSource方法
+     * */
     @Test
     public void should_call_food_dao_when_call_foods_repository_get_foods_from_db() {
         //given

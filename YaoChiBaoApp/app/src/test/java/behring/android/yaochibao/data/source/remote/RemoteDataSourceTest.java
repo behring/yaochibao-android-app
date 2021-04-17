@@ -16,7 +16,9 @@ import static org.mockito.Mockito.mock;
 
 public class RemoteDataSourceTest {
     /**
-     * 此测试依赖于Fake的BFF，在运行测试前确保启动BFF服务器。
+     * 工序1 通过fake Mobile BFF，实现RemoteDataSource调用BFF并返回结果到Repository
+     *
+     * 此测试依赖于Fake的BFF，在运行测试前确保启动BFF服务器
      * */
     @Test
     public void should_return_foods_when_call_remote_data_source_get_foods() {

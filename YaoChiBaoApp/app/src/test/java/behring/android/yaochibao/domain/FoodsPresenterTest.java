@@ -45,6 +45,10 @@ public class FoodsPresenterTest {
         TestHelper.modifySingleton(Network.class, network);
     }
 
+    /**
+     * 工序3 Stub Repository，实现由Presenter返回ViewModel所需数据
+     *
+     * */
     @Test
     public void should_return_foods_to_view_model_when_call_presenter_get_foods_and_network_available() {
         //given
@@ -58,6 +62,10 @@ public class FoodsPresenterTest {
         viewModel.loadFoods(anyString(), anyInt(), anyInt(), (foods, throwable) -> assertEquals(foods, presentFoods));
     }
 
+    /**
+     * 工序4 Stub/Spy Repository，实现由Presenter调用Repository
+     *
+     * */
     @Test
     public void should_call_repository_get_foods_when_call_presenter_get_foods_and_network_available() {
         //given
@@ -69,6 +77,10 @@ public class FoodsPresenterTest {
         verify(mockFoodsRepository).getFoods(anyString(), anyInt(), anyInt());
     }
 
+    /**
+     * 工序3 Stub Repository，实现由Presenter返回ViewModel所需数据
+     *
+     * */
     @Test
     public void should_return_foods_to_view_model_when_call_presenter_get_foods_from_db_and_network_not_available() {
         //given
@@ -82,6 +94,10 @@ public class FoodsPresenterTest {
         viewModel.loadFoods(anyString(), anyInt(), anyInt(), (foods, throwable) -> assertEquals(foods, presentFoods));
     }
 
+    /**
+     * 工序4 Stub/Spy Repository，实现由Presenter调用Repository
+     *
+     * */
     @Test
     public void should_call_repository_get_foods_from_db_when_call_presenter_get_foods_and_network_not_available() {
         //given
