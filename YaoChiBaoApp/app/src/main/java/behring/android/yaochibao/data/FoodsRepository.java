@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import behring.android.yaochibao.data.source.db.DBDataSource;
 import behring.android.yaochibao.data.model.Food;
 import behring.android.yaochibao.data.source.db.FoodDao;
 import behring.android.yaochibao.data.source.remote.RemoteDataSource;
@@ -23,7 +22,9 @@ public class FoodsRepository {
     }
 
     public Single<List<Food>> getFoods(String searchString, int skip, int limit) {
-        return remoteDataSource.getFoods(searchString, skip, limit).subscribeOn(Schedulers.io());
+        return remoteDataSource.getFoods(searchString, skip, limit)
+                .subscribeOn(Schedulers.io())
+                .doAfterSuccess(foods -> foodDao.insertFoods(foods.toArray(new Food[0])).subscribe());
     }
 
     public Observable<List<Food>> getFoodsFromDB() {
