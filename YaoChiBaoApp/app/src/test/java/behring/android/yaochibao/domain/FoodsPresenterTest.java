@@ -1,5 +1,7 @@
 package behring.android.yaochibao.domain;
 
+import android.content.Context;
+
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -25,7 +27,7 @@ public class FoodsPresenterTest {
         FoodsRepository stubFoodsRepository = mock(FoodsRepository.class);
         when(stubFoodsRepository.getFoods(anyString(), anyInt(), anyInt()))
                 .thenReturn(Single.just(Arrays.asList(mock(Food.class), mock(Food.class))));
-        FoodsPresenter presenter = new FoodsPresenter(stubFoodsRepository);
+        FoodsPresenter presenter = new FoodsPresenter(mock(Context.class), stubFoodsRepository);
         FoodsViewModel viewModel = new FoodsViewModel(presenter);
         //when
         List<Food> presentFoods = presenter.getFoods(anyString(), anyInt(), anyInt()).blockingGet();
@@ -38,7 +40,7 @@ public class FoodsPresenterTest {
         //given
         FoodsRepository mockFoodsRepository = mock(FoodsRepository.class);
         when(mockFoodsRepository.getFoods(anyString(), anyInt(), anyInt())).thenReturn(Single.just(new ArrayList<>()));
-        FoodsPresenter presenter = new FoodsPresenter(mockFoodsRepository);
+        FoodsPresenter presenter = new FoodsPresenter(mock(Context.class), mockFoodsRepository);
         //when
         presenter.getFoods(anyString(), anyInt(), anyInt()).blockingSubscribe();
         //then
