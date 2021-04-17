@@ -5,6 +5,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 import java.util.List;
+import java.util.Timer;
 
 import javax.inject.Inject;
 
@@ -12,6 +13,7 @@ import behring.android.yaochibao.data.FoodsRepository;
 import behring.android.yaochibao.data.model.Food;
 import dagger.hilt.android.qualifiers.ApplicationContext;
 import io.reactivex.rxjava3.core.Single;
+import timber.log.Timber;
 
 public class FoodsPresenter {
     private final FoodsRepository foodsRepository;
@@ -31,13 +33,16 @@ public class FoodsPresenter {
         }
     }
 
+    public void handleFoodCommendPushMessage(String data) {
+        Timber.d("push message data: %s", data);
+    }
+
     public boolean isNetworkAvailable() {
         ConnectivityManager manager = (ConnectivityManager) context.getApplicationContext()
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         if (manager == null) {
             return false;
         }
-
         NetworkInfo networkinfo = manager.getActiveNetworkInfo();
         return networkinfo != null && networkinfo.isAvailable();
     }

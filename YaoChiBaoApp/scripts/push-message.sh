@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-message='{"restaurantId":12313,"foodId":10003,"description":"特价鸡排饭"}'
+message='{"type":"FOOD_COMMEND","data":\"{"restaurantId":12313,"foodId":10003,"description":"特价鸡排饭"}\"}'
 if [ "$1" ]; then
   message=$1
 fi
