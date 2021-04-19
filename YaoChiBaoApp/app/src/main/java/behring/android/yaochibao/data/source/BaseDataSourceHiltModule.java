@@ -11,7 +11,6 @@ import javax.inject.Singleton;
 import behring.android.yaochibao.R;
 import behring.android.yaochibao.data.source.db.DBDataSource;
 import behring.android.yaochibao.data.source.db.FoodDao;
-import behring.android.yaochibao.data.source.remote.RemoteDataSource;
 import dagger.Module;
 import dagger.Provides;
 import dagger.hilt.InstallIn;
@@ -30,7 +29,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 @Module
 @InstallIn(SingletonComponent.class)
-public final class DataSourceHiltModule {
+public final class BaseDataSourceHiltModule {
 
     @Provides
     public static DBDataSource provideDBDataSource(@ApplicationContext Context appContext) {
@@ -40,11 +39,6 @@ public final class DataSourceHiltModule {
     @Provides
     public static FoodDao provideFoodDao(DBDataSource dbDataSource) {
         return dbDataSource.foodDao();
-    }
-
-    @Provides
-    public static RemoteDataSource provideRemoteDataSource(Retrofit retrofit) {
-        return retrofit.create(RemoteDataSource.class);
     }
 
     @Singleton

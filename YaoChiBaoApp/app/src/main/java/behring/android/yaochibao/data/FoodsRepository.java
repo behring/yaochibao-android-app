@@ -7,8 +7,6 @@ import javax.inject.Inject;
 import behring.android.yaochibao.data.model.Food;
 import behring.android.yaochibao.data.source.db.FoodDao;
 import behring.android.yaochibao.data.source.remote.RemoteDataSource;
-import io.reactivex.rxjava3.core.Flowable;
-import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 

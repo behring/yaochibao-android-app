@@ -8,6 +8,8 @@ import java.util.List;
 
 import behring.android.yaochibao.TestHelper;
 import behring.android.yaochibao.data.model.Food;
+import behring.android.yaochibao.data.source.BaseDataSourceHiltModule;
+import behring.android.yaochibao.data.source.DataSourceHiltModule;
 
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyInt;
@@ -25,10 +27,16 @@ public class RemoteDataSourceTest {
         //given
         Context stubContext = mock(Context.class);
         doReturn("http://localhost:3000").when(stubContext).getString(anyInt());
-        RemoteDataSource remoteDataSource = TestHelper.getRemoteDataSource(stubContext);
+        RemoteDataSource remoteDataSource = getRemoteDataSource(stubContext);
         //when
         List<Food> foods = remoteDataSource.getFoods(null, 0, 0).blockingGet();
         //then
         assertEquals(20, foods.size());
+    }
+
+    private RemoteDataSource getRemoteDataSource(Context context) {
+        return DataSourceHiltModule.provideRemoteDataSource(
+                BaseDataSourceHiltModule.provideRRetrofit(context,
+                        BaseDataSourceHiltModule.provideOkHttpClient(BaseDataSourceHiltModule.provideHttpLoggingInterceptor())));
     }
 }
