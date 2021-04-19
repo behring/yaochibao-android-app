@@ -22,18 +22,21 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
-task configEnv() {
-    doLast {
-
-    }
-}
-
 ext {
     defaultBaseUrl = "\"https://www.yaochibao.com/api/v1/\""
     baseUrl = [
             dev : "\"http://10.0.2.2:3000/\"",
             prod: "\"https://www.yaochibao.com/api/v1/\""
     ]
+
+    getGitHash = { ->
+        def stdout = new ByteArrayOutputStream()
+        exec {
+            commandLine 'git', 'rev-parse', '--short', 'HEAD'
+            standardOutput = stdout
+        }
+        return stdout.toString().trim()
+    }
 
     getBaseUrl = { project ->
         if (!project.hasProperty('env')) {

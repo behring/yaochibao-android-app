@@ -18,17 +18,20 @@ android {
     }
 
     buildTypes {
+        def formattedDate = new Date().format('MMddHHmmss')
+        setProperty("archivesBaseName", "yaochibao-${formattedDate}-${getGitHash}")
+
         debug {
             debuggable true
             applicationIdSuffix ".debug"
             versionNameSuffix "-debug"
-            buildConfigField "String", "base_url", project.getBaseUrl(project)
+            buildConfigField "String", "base_url", getBaseUrl(project)
         }
 
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "base_url", project.getBaseUrl(project)
+            buildConfigField "String", "base_url", getBaseUrl(project)
         }
     }
 
@@ -51,7 +54,7 @@ android {
         exclude 'META-INF/LGPL2.1'
     }
 }
-assemble.dependsOn rootProject.configEnv
+
 
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
