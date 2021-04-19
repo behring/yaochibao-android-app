@@ -34,7 +34,6 @@ public class FoodsViewModel extends ObservableViewModel {
     }
 
     public void loadFoods(String searchStr, int page, int pageCount, @Nullable BiConsumer<List<Food>, Throwable> consumer) {
-        int skipCount = foods.size();
         addDisposable(
                 foodsPresenter.getFoods(searchStr, page, pageCount)
                         .subscribe((foods, throwable) -> {

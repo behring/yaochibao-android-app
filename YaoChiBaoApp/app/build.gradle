@@ -1,7 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'dagger.hilt.android.plugin'
-    id 'com.facebook.testing.screenshot'
+    id 'shot'
 }
 
 android {
@@ -14,15 +14,23 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "behring.android.yaochibao.ScreenshotTestRunner"
+        testInstrumentationRunner "com.karumi.shot.ShotTestRunner"
     }
 
     buildTypes {
+        debug {
+            debuggable true
+            applicationIdSuffix ".debug"
+            versionNameSuffix "-debug"
+            buildConfigField "String", "base_url", "\"http://10.0.2.2:3000/\""        }
+
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "base_url", "\"https://www.yaochibao.com/api/v1/\""
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -35,6 +43,11 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
         unitTests.includeAndroidResources = true
+    }
+
+    packagingOptions {
+        exclude 'META-INF/AL2.0'
+        exclude 'META-INF/LGPL2.1'
     }
 }
 
@@ -93,8 +106,4 @@ dependencies {
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-
-    // 截图测试
-    androidTestImplementation 'com.facebook.testing.screenshot:layout-hierarchy-common:0.13.0'
-    androidTestImplementation 'com.facebook.testing.screenshot:layout-hierarchy-litho:0.13.0'
 }

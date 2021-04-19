@@ -1,6 +1,7 @@
 package behring.android.yaochibao.android.ui;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.ImageView;
 
 import androidx.databinding.BindingAdapter;
@@ -11,15 +12,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.GlideBuilder;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder;
-import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.function.BiConsumer;
 
 import javax.inject.Inject;
 
@@ -48,14 +46,14 @@ public class FoodsActivity extends BaseActivity {
 
     private void initRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        recyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(new FoodsAdapter());
     }
 
     @BindingAdapter("data")
     public static void loadRecyclerViewData(RecyclerView recyclerView, List<Food> foods) {
         if (recyclerView.getAdapter() instanceof FoodsAdapter) {
-            ((FoodsAdapter)recyclerView.getAdapter()).setList(foods);
+            ((FoodsAdapter) recyclerView.getAdapter()).setList(foods);
         }
     }
 
@@ -67,7 +65,9 @@ public class FoodsActivity extends BaseActivity {
 
         @BindingAdapter("imageUrl")
         public static void loadImage(ImageView imageView, String imageUrl) {
-            Glide.with(imageView).load(imageUrl).into(imageView);
+            if (!TextUtils.isEmpty(imageUrl)) {
+                Glide.with(imageView).load(imageUrl).into(imageView);
+            }
         }
 
         @Override
