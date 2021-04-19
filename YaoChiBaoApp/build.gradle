@@ -21,3 +21,32 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+task configEnv() {
+    doLast {
+
+    }
+}
+
+ext {
+    defaultBaseUrl = "\"https://www.yaochibao.com/api/v1/\""
+    baseUrl = [
+            dev : "\"http://10.0.2.2:3000/\"",
+            prod: "\"https://www.yaochibao.com/api/v1/\""
+    ]
+
+    getBaseUrl = { project ->
+        if (!project.hasProperty('env')) {
+            println("env param is not exist. use defaultBaseUrl:${defaultBaseUrl}")
+            return defaultBaseUrl
+        }
+        def baseUrl = project.baseUrl[project.property('env')]
+        if (baseUrl != null) {
+            defaultBaseUrl = baseUrl
+            println("env ${project.property('env')} url: ${defaultBaseUrl}")
+        } else {
+            println("env ${project.property('env')} is not exist. use defaultBaseUrl:${defaultBaseUrl}")
+        }
+        return defaultBaseUrl
+    }
+}
