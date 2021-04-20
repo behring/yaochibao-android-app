@@ -19,7 +19,7 @@ android {
 
     buildTypes {
         def formattedDate = new Date().format('MMddHHmmss')
-        setProperty("archivesBaseName", "yaochibao-${formattedDate}-${getGitHash}")
+        setProperty("archivesBaseName", "yaochibao-${formattedDate}-${getGitHash}-${getEnv(project)}")
 
         debug {
             debuggable true

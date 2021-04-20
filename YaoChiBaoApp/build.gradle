@@ -23,8 +23,8 @@ task clean(type: Delete) {
 }
 
 ext {
-    defaultBaseUrl = "\"https://www.yaochibao.com/api/v1/\""
-    baseUrl = [
+    defaultEnv = "dev"
+    baseUrls = [
             dev : "\"http://10.0.2.2:3000/\"",
             prod: "\"https://www.yaochibao.com/api/v1/\""
     ]
@@ -38,18 +38,20 @@ ext {
         return stdout.toString().trim()
     }
 
-    getBaseUrl = { project ->
+    getEnv = { project ->
         if (!project.hasProperty('env')) {
-            println("env param is not exist. use defaultBaseUrl:${defaultBaseUrl}")
-            return defaultBaseUrl
+            println("env param is not exist. use default env: ${defaultEnv}")
+            return defaultEnv
         }
-        def baseUrl = project.baseUrl[project.property('env')]
-        if (baseUrl != null) {
-            defaultBaseUrl = baseUrl
-            println("env ${project.property('env')} url: ${defaultBaseUrl}")
-        } else {
-            println("env ${project.property('env')} is not exist. use defaultBaseUrl:${defaultBaseUrl}")
+        if (!project.baseUrls.containsKey(project.property('env'))) {
+            println("env ${project.property('env')} is not exist. use default env: ${defaultEnv}")
+            return defaultEnv
         }
-        return defaultBaseUrl
+        println("current env: ${project.property('env')}.")
+        return project.property('env')
+    }
+
+    getBaseUrl = { project ->
+        return project.baseUrls[project.getEnv(project)]
     }
 }
