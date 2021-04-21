@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId "behring.android.yaochibao"
-        minSdkVersion 24
+        minSdkVersion 22
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -25,13 +25,15 @@ android {
             debuggable true
             applicationIdSuffix ".debug"
             versionNameSuffix "-debug"
-            buildConfigField "String", "base_url", getBaseUrl(project)
+            buildConfigField "String", "BASE_URL", "\"${getBaseUrl(project)}\""
+            buildConfigField "String", "ENVIROMENT", "\"${getEnv(project)}\""
         }
 
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "base_url", getBaseUrl(project)
+            buildConfigField "String", "BASE_URL", "\"${getBaseUrl(project)}\""
+            buildConfigField "String", "ENVIROMENT", "\"${getEnv(project)}\""
         }
     }
 

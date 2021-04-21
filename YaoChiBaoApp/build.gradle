@@ -23,10 +23,9 @@ task clean(type: Delete) {
 }
 
 ext {
-    defaultEnv = "dev"
     baseUrls = [
-            dev : "\"http://10.0.2.2:3000/\"",
-            prod: "\"https://www.yaochibao.com/api/v1/\""
+            dev : "http://10.0.2.2:3000/",
+            prod: "https://www.yaochibao.com/api/v1/"
     ]
 
     getGitHash = { ->
@@ -39,6 +38,7 @@ ext {
     }
 
     getEnv = { project ->
+        def defaultEnv = project.properties['behring.android.yaochibao.enviroment']
         if (!project.hasProperty('env')) {
             println("env param is not exist. use default env: ${defaultEnv}")
             return defaultEnv

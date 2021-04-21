@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
 
-import behring.android.yaochibao.R;
+import behring.android.yaochibao.BuildConfig;
 import behring.android.yaochibao.data.source.db.DBDataSource;
 import behring.android.yaochibao.data.source.db.FoodDao;
 import dagger.Module;
@@ -43,11 +43,9 @@ public final class BaseDataSourceHiltModule {
 
     @Singleton
     @Provides
-    public static Retrofit provideRRetrofit(
-            @ApplicationContext Context appContext,
-            OkHttpClient httpClient) {
+    public static Retrofit provideRetrofit(OkHttpClient httpClient) {
         return new Retrofit.Builder()
-                .baseUrl(appContext.getString(R.string.base_url))
+                .baseUrl(BuildConfig.BASE_URL)
                 .client(httpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
