@@ -12,7 +12,8 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Timber.plant(new Timber.DebugTree());
+        Timber.plant(new LogReportingTree(this));
         startService(new Intent(this, PushReceivingService.class));
+        Timber.d("App [onCreate]");
     }
 }
