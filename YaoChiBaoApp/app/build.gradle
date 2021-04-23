@@ -3,6 +3,10 @@ plugins {
     id 'dagger.hilt.android.plugin'
 }
 
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
@@ -13,7 +17,16 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "com.karumi.shot.ShotTestRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        config {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
     }
 
     buildTypes {
@@ -24,15 +37,12 @@ android {
             debuggable true
             applicationIdSuffix ".debug"
             versionNameSuffix "-debug"
-            buildConfigField "String", "BASE_URL", "\"${getBaseUrl(project)}\""
-            buildConfigField "String", "ENVIROMENT", "\"${getEnv(project)}\""
         }
 
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "BASE_URL", "\"${getBaseUrl(project)}\""
-            buildConfigField "String", "ENVIROMENT", "\"${getEnv(project)}\""
+            signingConfig signingConfigs.config
         }
     }
 
@@ -55,16 +65,6 @@ android {
 
     buildFeatures {
         dataBinding true
-    }
-
-    testOptions {
-        unitTests.returnDefaultValues = true
-        unitTests.includeAndroidResources = true
-    }
-
-    packagingOptions {
-        exclude 'META-INF/AL2.0'
-        exclude 'META-INF/LGPL2.1'
     }
 }
 

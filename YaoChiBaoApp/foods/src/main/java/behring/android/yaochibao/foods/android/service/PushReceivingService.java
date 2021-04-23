@@ -10,6 +10,9 @@ import androidx.annotation.StringDef;
 
 import com.google.gson.Gson;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 import javax.inject.Inject;
 
 import behring.android.yaochibao.foods.domain.FoodsPresenter;
@@ -64,6 +67,7 @@ public class PushReceivingService extends Service {
     }
 
     @StringDef(value = {FOOD_COMMEND})
+    @Retention(RetentionPolicy.SOURCE)
     @interface PushType {
         String FOOD_COMMEND = "FOOD_COMMEND";
     }
