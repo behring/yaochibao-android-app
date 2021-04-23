@@ -26,3 +26,9 @@
   **[] $VALUES;
   public *;
 }
+-keep public class * extends com.chad.library.adapter.base.viewholder.BaseViewHolder{
+    <init>(...);
+}
+-keepclassmembers  class **$** extends com.chad.library.adapter.base.viewholder.BaseViewHolder {
+    <init>(...);
+}

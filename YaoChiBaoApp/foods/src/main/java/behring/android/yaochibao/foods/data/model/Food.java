@@ -5,6 +5,9 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import lombok.Data;
 
 /**
@@ -18,9 +21,13 @@ import lombok.Data;
 public class Food {
     @PrimaryKey
     @NonNull
+    @SerializedName("id")
     private String id;
+    @SerializedName("name")
     private String name;
+    @SerializedName("imageUrl")
     private String imageUrl;
+    @SerializedName("priceCent")
     private long priceCent;
     @Ignore
     private Restaurant restaurant;
