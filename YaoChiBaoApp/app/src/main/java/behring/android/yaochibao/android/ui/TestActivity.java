@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import behring.android.yaochibao.R;
+import behring.android.yaochibao.foods.android.ui.FoodsActivity;
 
 /**
  * 应用程序测试入口页

@@ -1,2 +1,3 @@
+include ':foods'
 include ':app'
 rootProject.name = "YaoChiBaoApp"

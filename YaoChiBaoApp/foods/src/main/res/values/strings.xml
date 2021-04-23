@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">YaoChiBaoApp</string>
+    <string name="food_image">food image</string>
+    <string name="yuan">元</string>
+    <string name="start_foods_activity">进入餐品列表页面</string>
+    <string name="add_cart">加入购物车</string>
+</resources>

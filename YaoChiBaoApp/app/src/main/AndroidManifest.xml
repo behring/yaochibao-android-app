@@ -18,13 +18,6 @@
         android:theme="@style/Theme.YaoChiBaoApp"
         tools:targetApi="n">
 
-        <service
-            android:name=".android.service.PushReceivingService"
-            android:exported="true" />
-
-        <activity
-            android:name=".android.ui.FoodsActivity"
-            android:exported="false" />
         <activity android:name=".android.ui.TestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

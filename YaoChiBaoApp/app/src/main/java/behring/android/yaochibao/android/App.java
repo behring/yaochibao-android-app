@@ -3,7 +3,8 @@ package behring.android.yaochibao.android;
 import android.app.Application;
 import android.content.Intent;
 
-import behring.android.yaochibao.android.service.PushReceivingService;
+import behring.android.yaochibao.foods.android.LogReportingTree;
+import behring.android.yaochibao.foods.android.service.PushReceivingService;
 import dagger.hilt.android.HiltAndroidApp;
 import timber.log.Timber;
 
